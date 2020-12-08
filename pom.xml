@@ -66,6 +66,10 @@
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
         </dependency>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 59655105a719245507fcda21fee8427fdf653442
     </dependencies>
 
     <build>
