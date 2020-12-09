@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class IndexController {
-    @Autowired
+    @Autowired(required=false)
     private UserMapper userMapper;
 
     @GetMapping("/")
@@ -27,8 +27,6 @@ public class IndexController {
                 break;
             }
         }
-        User user = userMapper.findByToken(token)
-
         return "index";
     }
 }
