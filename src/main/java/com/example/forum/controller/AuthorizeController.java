@@ -30,7 +30,7 @@ public class AuthorizeController {
     @Value("${github.redirect_uri}")
     private String redirectUri;
 
-    @Autowired
+    @Autowired(required=false)
     private UserMapper userMapper;
 
     @GetMapping("/callback")
@@ -46,24 +46,18 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if (githubUser != null){
+        if (githubUser != null && githubUser.getId() != null){
             User user = new User();
-            user.setName(githubUser.getName());
-            user.setAccountId(String.valueOf(githubUser.getId()));
             String token = UUID.randomUUID().toString();
             user.setToken(token);
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtMofifed(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatar_url());
             userMapper.inster(user);
             response.addCookie(new Cookie("token",token));
             //登录成功，写入cookies 和 session
-//            request.getSession().setAttribute("user",githubUser);
-            user.setToken(UUID.randomUUID().toString());
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtMofifed(user.getGmtCreate());
-            userMapper.inster(user);
-            //登录成功，写入cookies 和 session
-            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         } else {
             //登录失败，重新登陆

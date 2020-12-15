@@ -1,10 +1,9 @@
 package com.example.forum.controller;
 
-import com.example.forum.mapper.QuestionMapper;
+ import com.example.forum.mapper.QuestionMapper;
 import com.example.forum.mapper.UserMapper;
 import com.example.forum.model.Question;
 import com.example.forum.model.User;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,11 +30,29 @@ public class PublishController {
 
     @PostMapping("/publish")
     public String doPublish(
-            @RequestParam("title") String title,
-            @RequestParam("content") String content,
-            @RequestParam("tags") String tags,
+            @RequestParam(value = "title",required = false) String title,
+            @RequestParam(value = "content",required = false) String content,
+            @RequestParam(value = "tags",required = false) String tags,
             HttpServletRequest request,
             Model model){
+
+        model.addAttribute("title",title);
+        model.addAttribute("content",content);
+        model.addAttribute("tags",tags);
+
+        if (title == null || title == ""){
+            model.addAttribute("error","请填写问题标题~~~");
+            return "publish";
+        }
+        if (content == null || content == ""){
+            model.addAttribute("error","请填写问题内容~~~");
+            return "publish";
+        }
+        if (tags == null || tags == ""){
+            model.addAttribute("error","请填写问题标签~~~");
+            return "publish";
+        }
+
         User user = null;
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
@@ -48,10 +65,12 @@ public class PublishController {
                 break;
             }
         }
+
         if (user == null){
             model.addAttribute("error","请先登录后在发起提问~~~");
             return "publish";
         }
+
         Question question = new Question();
         question.setTitle(title);
         question.setContent(content);
