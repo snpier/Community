@@ -1,10 +1,7 @@
 package com.example.forum.controller;
 
 import com.example.forum.dto.PageinationDTO;
-import com.example.forum.dto.QuestionDTO;
-import com.example.forum.mapper.QuestionMapper;
 import com.example.forum.mapper.UserMapper;
-import com.example.forum.model.Question;
 import com.example.forum.model.User;
 import com.example.forum.service.QusetionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class IndexController {
@@ -41,7 +37,6 @@ public class IndexController {
                 break;
             }
         }
-
         PageinationDTO pageination = qusetionService.list(page,size);
         model.addAttribute("pageination", pageination);
         return "index";
