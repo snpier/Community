@@ -110,6 +110,19 @@ public class QusetionService {
         Question question =  questionMapper.getById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
+        User user = userMapper.findById(question.getCreator());
+        questionDTO.setUser(user);
         return questionDTO;
+    }
+
+    public void createOrUpdaye(Question question) {
+        if (question.getId() == null){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModifed(question.getGmtCreate());
+            questionMapper.create(question);
+        }else {
+            question.setGmtModifed(question.getGmtCreate());
+            questionMapper.update(question);
+        }
     }
 }
