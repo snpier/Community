@@ -16,23 +16,10 @@ public class PageinationDTO {
     private List<Integer> pages = new ArrayList<>();
     private Integer totalPage;
 
-    public void setpageination(Integer totalCount, Integer page, Integer size) {
+    public void setpageination(Integer totalPage, Integer page) {
+        this.totalPage = totalPage;
+        this.page = page;
 
-        if (totalCount % size == 0) {
-            totalPage = totalCount / size;
-        } else {
-            totalPage = totalCount / size + 1;
-        }
-
-        if (this.page < 1) {
-            this.page = 1;
-        }
-
-        if (this.page > totalPage) {
-            this.page = totalPage;
-        }
-
-        this.page = this.page;
         pages.add(page);
         for (int i = 1; i <= 3; i++) {
             if (page - i > 0) {
@@ -51,7 +38,7 @@ public class PageinationDTO {
         }
 
         //是否展示下一页
-        if (page == totalCount) {
+        if (page == totalPage) {
             showNext = false;
         } else {
             showNext = true;

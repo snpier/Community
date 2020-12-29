@@ -6,7 +6,7 @@
     <title>浪潮社区</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="css/community.scss">
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
@@ -41,9 +41,8 @@
                     </a>
                 </li>
                 <li th:if="${pageination.showPrevious}">
-                    <a th:href="@{/(page=${pageination.page-1})}" aria-label="Previous">
-                        <span aria-hidden="true">&lt;</span>
-                    </a>
+                    <a th:href="@{/(page=${pageination.page-1})}" aria-label="Previous"></a>
+                    <span aria-hidden="true">&lt;</span>
                 </li>
                 <li th:each="page:${pageination.pages}" th:class="${pageination.page == page}? 'active':''">
                     <a th:href="@{/(page=${page})}" th:text="${page}"></a>

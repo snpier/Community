@@ -16,23 +16,39 @@ import java.util.List;
 @Service
 public class QusetionService {
 
-    @Autowired(required = false)
+    @Autowired
     private UserMapper userMapper;
 
-    @Autowired(required = false)
+    @Autowired
     private QuestionMapper questionMapper;
 
     public PageinationDTO list(Integer page, Integer size) {
         PageinationDTO pageinationDTO = new PageinationDTO();
+        Integer totalPage;
         Integer totalCount = questionMapper.count();
-        pageinationDTO.setpageination(totalCount, page, size);
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+
         if (page < 1) {
             page = 1;
         }
 
-        if (page > pageinationDTO.getTotalPage()) {
-            page = pageinationDTO.getTotalPage();
+        if (page > totalPage) {
+            page = totalPage;
         }
+        pageinationDTO.setpageination(totalPage, page);
+
+        //分页算法
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.list(offset, size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -47,19 +63,37 @@ public class QusetionService {
         return pageinationDTO;
     }
 
-    public void list(Integer userId, Integer page, Integer size) {
+    public PageinationDTO list(Integer userId, Integer page, Integer size) {
         PageinationDTO pageinationDTO = new PageinationDTO();
-        Integer totalCount = questionMapper.count();
-        pageinationDTO.setpageination(totalCount, page, size);
+
+        Integer totalPage;
+        Integer totalCount = questionMapper.countByUseerId(userId);
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+
         if (page < 1) {
             page = 1;
         }
 
-        if (page > pageinationDTO.getTotalPage()) {
-            page = pageinationDTO.getTotalPage();
+        if (page > totalPage) {
+            page = totalPage;
         }
+
+        pageinationDTO.setpageination(totalPage, page);
+
+        //分页算法
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.list(userId, offset, size);
+        List<Question> questions = questionMapper.listByUserId(userId, offset, size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {
             User user = userMapper.findById(question.getCreator());
@@ -70,5 +104,12 @@ public class QusetionService {
         }
         pageinationDTO.setQuestions(questionDTOList);
         return pageinationDTO;
+    }
+
+    public QuestionDTO getById(Integer id) {
+        Question question =  questionMapper.getById(id);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
+        return questionDTO;
     }
 }
