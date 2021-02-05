@@ -2,6 +2,8 @@ package com.example.forum.service;
 
 import com.example.forum.dto.PageinationDTO;
 import com.example.forum.dto.QuestionDTO;
+import com.example.forum.exception.CustomizeErrorCode;
+import com.example.forum.exception.CustomizeException;
 import com.example.forum.mapper.QuestionMapper;
 import com.example.forum.mapper.UserMapper;
 import com.example.forum.model.Question;
@@ -114,8 +116,10 @@ public class QusetionService {
     }
 
     public QuestionDTO getById(Integer id) {
-
         Question question =  questionMapper.selectByPrimaryKey(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -136,7 +140,10 @@ public class QusetionService {
             updateQuestion.setTag(question.getTag());
             QusetionExample example = new QusetionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
+            }
         }
     }
 }

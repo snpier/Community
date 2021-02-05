@@ -17,7 +17,6 @@ public class IndexController {
     public String index(Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "10") Integer size) {
-
         PageinationDTO pageination = qusetionService.list(page,size);
         model.addAttribute("pageination", pageination);
         return "index";
