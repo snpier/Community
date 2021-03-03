@@ -13,9 +13,9 @@
         <result column="TAG" jdbcType="VARCHAR" property="tag" />
         <result column="STICKY" jdbcType="INTEGER" property="sticky" />
     </resultMap>
-    <update id="incView" parameterType="map">
+    <update id="incView" parameterType="com.example.forum.model.Question">
         update QUESTION
-        set VIEW_COUNT = VIEW_COUNT + #{record.viewCount,jdbcType=INTEGER}
-        where id = #{record.id}
+        set VIEW_COUNT = VIEW_COUNT + #{iewCount,jdbcType=INTEGER}
+        where id = #{id}
     </update>
 </mapper>
