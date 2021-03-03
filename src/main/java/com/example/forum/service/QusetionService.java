@@ -4,6 +4,7 @@ import com.example.forum.dto.PageinationDTO;
 import com.example.forum.dto.QuestionDTO;
 import com.example.forum.exception.CustomizeErrorCode;
 import com.example.forum.exception.CustomizeException;
+import com.example.forum.mapper.QuestionExtMapper;
 import com.example.forum.mapper.QuestionMapper;
 import com.example.forum.mapper.UserMapper;
 import com.example.forum.model.Question;
@@ -25,6 +26,9 @@ public class QusetionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PageinationDTO list(Integer page, Integer size) {
         PageinationDTO pageinationDTO = new PageinationDTO();
@@ -115,7 +119,7 @@ public class QusetionService {
         return pageinationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question =  questionMapper.selectByPrimaryKey(id);
         if (question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
@@ -145,5 +149,12 @@ public class QusetionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
             }
         }
+    }
+
+    public void incView(Long id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }

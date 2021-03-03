@@ -81,7 +81,7 @@ public class User {
      *
      * @mbg.generated Thu Sep 05 06:46:42 CST 2019
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
