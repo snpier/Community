@@ -18,13 +18,14 @@
 [Github deploy key](https://docs.github.com/en/free-pro-team@latest/developers/overview/managing-deploy-keys#deploy-keys)
 [Bootstrap](https://v3.bootcss.com/getting-started/)
 [Github OAuth](https://github.com/settings/applications/new)
-[Spring](mvn flyway:migrate)
+[Spring](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database-support)
 [菜鸟教程](https://www.runoob.com/mysql/mysql-tutorial.html)
 [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#setting-attribute-values)
 [Spring Dev Tool](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#using-boot-devtools)
 [Spring MVC](https://docs.spring.io/spring-framework/docs/5.0.3.RELEASE/spring-framework-reference/web.html#mvc-handlermapping-interceptor)
 [Markdown 插件](http://editor.md.ipandao.com/)
 [Lombok](https://www.projectlombok.org/)
+[Postman](https://chrome.google.com/webstore/detail/tabbed-postman-rest-clien/coohjcphdfgbiolnekdpbcijmhambjff)
 ##本地运行手册
     克隆代码到本地
     ```linux

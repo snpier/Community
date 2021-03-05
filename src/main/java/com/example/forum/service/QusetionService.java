@@ -122,7 +122,7 @@ public class QusetionService {
     public QuestionDTO getById(Long id) {
         Question question =  questionMapper.selectByPrimaryKey(id);
         if (question == null){
-            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
@@ -135,6 +135,9 @@ public class QusetionService {
         if (question.getId() == null){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
         }else {
             Question updateQuestion = new Question();
@@ -146,7 +149,7 @@ public class QusetionService {
             example.createCriteria().andIdEqualTo(question.getId());
             int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
             if (updated != 1){
-                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOTFOUND);
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
     }
